@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Name Lookup System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("C:\Users\Harry Storm\Desktop\Bacals\26735930-9e30-4f98-8a67-ab44cbd5990b.jpg");
+      background-position: center;
+      background-attachment: fixed;
+      padding: 20px;
+    }
+    .login-container, .lookup-container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 4px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    #loginError {
+      color: red;
+      margin-top: 10px;
+    }
+    #result {
+      margin-top: 15px;
+      background: #e8f5e9;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+    }
+  #navToggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #333;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 1000;
+  font-weight: bold;
+}
+
+#sidebar {
+  position: fixed;
+  top: 50px;
+  left: 10px;
+  background: #222;
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+  z-index: 999;
+}
+
+#sidebar button {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#sidebar button:hover {
+  background: #666;
+}
+  </style>
+</head>
+<body>
+  <!-- Sidebar Toggle Button -->
+<div id="navToggle" onclick="toggleSidebar()">☰ Menu</div>
+
+<!-- Sidebar -->
+<div id="sidebar">
+  <button onclick="showSection('history')">📜 History</button>
+  <button onclick="showSection('how')">❓ How to Use Me</button>
+</div>
+
+<!-- How to Use Section -->
+<div id="howSection" style="display:none; padding:10px;">
+  <h3>📘 How to Use This System</h3>
+  <ul>
+    <li>Enter your name in the input field.</li>
+    <li>Click "Look Up" to view your data.</li>
+    <li>Use the sidebar to navigate.</li>
+  </ul>
+</div>
+
+<!-- History Section -->
+<div id="historySection" style="display:none; padding:10px;">
+  <h3>📜 Search History</h3>
+  <ul id="historyList"></ul>
+</div>
+
+  <!-- Login Section -->
+  <div class="login-container" id="loginSection">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div id="loginError"></div>
+  </div>
+
+  <!-- Lookup Section -->
+  <div class="lookup-container" id="lookupSection" style="display: none;">
+    <h2>Lookup System</h2>
+    <input type="text" id="nameInput" placeholder="Type your name">
+    <button onclick="lookup()">Look up</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Login system
+    function login() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const errorDiv = document.getElementById("loginError");
+
+      // Default login credentials
+      const validUser = "Johnvel";
+      const validPass = "34101150";
+
+      if (user === validUser && pass === validPass) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("lookupSection").style.display = "block";
+      } else {
+        errorDiv.innerText = "❌ Invalid username or password.";
+      }
+    }
+  </script>
+
+  <script>
+    const userData = {
+      "Johnvel Lynmer P. Bacaling": {
+        age: 17,
+        grade: "12",
+        email: "johnvel@example.com",
+        Section: "NetBios",
+        Teacher: "Anne Silawan",
+        Num: "09*********",
+        FB: "Lynmer Bacaling",
+        Mother: "Veleza P. Pahugot",
+        Father: "Robert John T. Bacaling",
+        LRN: "447077150031",
+        Modality:"Face to face"
+        
+      },
+      "Jerald D. Socorin": {
+        age: 18,
+        grade: "12",
+        email: "JeraldSocorn@example.com",
+        Section: "NetBios",
+        Teacher: "Anne Silawan",
+        Num: "09*********",
+        FB: "Jerald D. socorin",
+        Mother: "Ms.Socorin",
+        Father: "Mr.Socorin",
+        LRN: "119254120126",
+        Modality:"Face to face"
+      },
+      "Aljun G. Manlakat": {
+        age: 16,
+        grade: "12",
+        email: "Aljun2008@example.com",
+        Section: "NetBios",
+        Teacher: "Anne Silawan",
+        Num: "09*********",
+        FB: "Al Jun",
+        Mother: "Jocelyn G. Manlakat",
+        Father: "Albert R. Manlakat",
+        LRN: "119255130220",
+        Modality:"Face to face"
+        
+        
+      },
+       "Jonalyn M. Miñoza": {
+        age: 18,
+        grade: "12",
+        email: "Jonalyn@example.com",
+        Section: "NetBios",
+        Teacher: "Anne Silawan",
+        Num: "09*********",
+        FB: "Monica Miñoza",
+        Mother: "Ms.Miñoza",
+        Father: "Mr.Miñoza",
+        LRN: "119967140396",
+        Modality:"Face to face"
+        
+        
+       },
+       "MarlynJanne L. Trimonia": {
+        age: 17,
+        grade: "12",
+        email: "Marlyn@example.com",
+        Section: "NetBios",
+        Teacher: "Anne Silawan",
+        Num: "09*********",
+        FB: "MarlynJanne Trimonia",
+        Mother: "Helen R. Limpangug",
+        Father: "Marlon T. Trimonia",
+        LRN: "119984130342",
+        Modality:"Face to face"
+        
+       },
+       "John Carlo J. Años" :{
+         age:18,
+         grade:"12",
+         email:"Johncarlo@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"John Carlo",
+         Mother:"Ms.Años",
+         Father:"Mr.Años",
+         LRN: "120105120023",
+         Modality:"Face to face"
+         
+       },
+        "Louie L. Carcasona" :{
+         age:18,
+         grade:"12",
+         email:"Louie@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Louie Carcasona",
+         Mother:"Ms.Carcasona",
+         Father:"Mr.Carcasona",
+         LRN: "119967140460",
+         Modality:"Face to face"
+       },
+         "Andre Stephan B. Estardo" :{
+         age:18,
+         grade:"12",
+         email:"Estardoandre@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Estardo",
+         Father:"Mr.Estardo",
+         LRN: "119969120081",
+         Modality:"Modular"
+       },
+         "Janzel Niño B. Fernandez" :{
+         age:18,
+         grade:"12",
+         email:"Niño@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Janzel Fernandez",
+         Mother:"Ms.Fernandez",
+         Father:"Mr.Fernandez",
+         LRN: "119970120201",
+         Modality:"Face to face" 
+       },
+         "Garreth Jezzeriel P. Igot" :{
+         age:18,
+         grade:"12",
+         email:"Jezzeriel@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Garreth Jezzeriel Igot",
+         Mother:"Ms.Igot",
+         Father:"Mr.Igot",
+         LRN: "404545150068",
+         Modality:"Face to face"
+       },
+        "Alvin Lumongsud" :{
+         age:18,
+         grade:"12",
+         email:"Alvin@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Lumongsud",
+         Father:"Mr.Lumongsud",
+         LRN: "119975130480",
+         Modality:"Modular"
+       },
+      "Shaun Isiah B. Mahipos" :{
+         age:18,
+         grade:"12",
+         email:"Isayashaun@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Isiah Shaun",
+         Mother:"Ms.Mahipos",
+         Father:"Mr.Mahipos",
+         LRN: "119977130183",
+         Modality:"Face to face"
+       },
+      "Kent Maribojoc" :{
+         age:18,
+         grade:"12",
+         email:"Kent@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Kent Maribojoc",
+         Mother:"Ms.Maribojoc",
+         Father:"Mr.Maribojoc",
+         LRN: "119970130685",
+         Modality:"Face to face"
+       },
+      "Yancy P. Pagdalian" :{
+         age:18,
+         grade:"12",
+         email:"Yancy@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Pagdalian",
+         Father:"Mr.Pagdalian",
+         LRN: "119969120245",
+         Modality:"Modular"
+       },
+      "Kiven T. Muñasque" :{
+         age:18,
+         grade:"12",
+         email:"Kev@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Kiven Muña",
+         Mother:"Ms.Muñasque",
+         Father:"Mr.Muñasque",
+         LRN: "119093140069",
+         Modality:"Face to face"
+       },
+      "Juno A. Pagobo" :{
+         age:18,
+         grade:"12",
+         email:"Pagobofam@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Pagobo",
+         Father:"Mr.Pagobo",
+         LRN: "119969130174",
+         Modality:"Modular"
+       },
+      "Jaylord J. Quilantang" :{
+         age:18,
+         grade:"12",
+         email:"Jaylord@example.com",
+         Section:"NetBios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Quilantang",
+         Father:"Mr.Quilantang",
+         LRN: "119977130288",
+         Modality:"Face to face"
+       },
+      "Geoffrey Miles A. Repollo" :{
+         age:18,
+         grade:"12",
+         email:"GM@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"GM Ando Repollo",
+         Mother:"Chona A. Repollo",
+         Father:"Gregorio B. Repollo",
+         LRN: "119259130163",
+         Modality:"Face to face"
+       },
+      "Jake B. Roxas" :{
+         age:18,
+         grade:"12",
+         email:"Jake@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Jake Roxas",
+         Mother:"Ms.Roxas",
+         Father:"Mr.Roxas",
+         LRN: "119968120177",
+         Modality:"Face to face"
+       },
+      "Jaylord E. Segales" :{
+         age:18,
+         grade:"12",
+         email:"Segalesfam@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Segales",
+         Father:"Mr.Segales",
+         LRN: "119969100249",
+         Modality:"Modular"
+       },
+      "Rhiley P. Septimo" :{
+         age:18,
+         grade:"12",
+         email:"Rhiley@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Rhiley Septimo",
+         Mother:"Ms.Septimo",
+         Father:"Mr.Septimo",
+         LRN: "119145130090",
+         Modality:"Face to face"
+       
+       },
+      "Steven B. Suba" :{
+         age:18,
+         grade:"12",
+         email:"Steven@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Steven Suba",
+         Mother:"Ms.Suba",
+         Father:"Mr.Suba",
+         LRN: "119096110029",
+         Modality:"Face to face"
+       },
+      "Matt Andrew N. Sumile" :{
+         age:18,
+         grade:"12",
+         email:"Matt@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Matt Andrew Sumile",
+         Mother:"Ms.Sumile",
+         Father:"Mr.Sumile",
+         LRN: "119989150579",
+         Modality:"Face to face"
+       },
+      "Marc Aeron Tampus" :{
+         age:18,
+         grade:"12",
+         email:"aeron@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Aeron casas",
+         Mother:"Ms.Tampus",
+         Father:"Mr.Tampus",       
+         LRN: "119989140607",
+         Modality:"Face to face"
+       },
+      "Jimmy E. Villa" :{
+         age:18,
+         grade:"12",
+         email:"JimmyJames@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Jimmy James",
+         Mother:"Ms.Villa",
+         Father:"Mr.Villa",
+         LRN: "119987140038",
+         Modality:"Face to face"
+        
+       },
+      "Samantha Faith R. Gencono" :{
+         age:18,
+         grade:"12",
+         email:"Samantha@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Izzy Maria",
+         Mother:"Ms.Gencono",
+         Father:"Mr.Gencono",
+         LRN: "119968130259",
+         Modality:"Face to face"
+        
+       },
+      "Jovie M. Maloloy-on" :{
+         age:18,
+         grade:"12",
+         email:"Jovie@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Vie Maloloy-on",
+         Mother:"Ms.Maloloy-on",
+         Father:"Mr.Maloloy-on",
+         LRN: "119967140959",
+         Modality:"Face to face"
+       
+       },
+      "Rhoan Shinlee E. Salac" :{
+         age:18,
+         grade:"12",
+         email:"Shinlee@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"",
+         Mother:"Ms.Salac",
+         Father:"Mr.Salac",
+         LRN: "119965140213",
+         Modality:"Modular"
+      
+       },
+      "Rachel A. Bayaras" :{
+         age:17,
+         grade:"12",
+         email:"Rachel@example.com",
+         Section:"Netbios",
+         Teacher:"Anne Silawan",
+         Num:"09*********",
+         FB:"Rachel Bayaras",
+         Mother:"Ms.Bayaras",
+         Father:"Mr.Bayaras",
+         LRN: "119984130190",
+         Modality:"Face to face"
+      }
+      
+    };
+
+    function lookup() {
+      const name = document.getElementById("nameInput").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (userData[name]) {
+        const data = userData[name];
+        resultDiv.innerHTML = `
+          <strong>Name:</strong> ${name}<br>
+          <strong>Age:</strong> ${data.age}<br>
+          <strong>Grade:</strong> ${data.grade}<br>
+          <strong>Email:</strong> ${data.email}<br>
+          <strong>Section:</strong> ${data.Section}<br>
+          <strong>Teacher:</strong> ${data.Teacher}<br>
+          <strong>Number:</strong> ${data.Num}<br> 
+          <strong>FB:</strong> ${data.FB}<br>
+          <strong>Mother:</strong> ${data.Mother}<br>
+          <strong>Father:</strong> ${data.Father}<br>
+          <strong>Parents Number:</strong> ${data.ParentsNumber}<br>
+          <strong>LRN:</strong> ${data.LRN}<br>
+          <strong>Modality:</strong> ${data.Modality}
+        `;
+        resultDiv.style.display = "block";
+      } else {
+        resultDiv.innerHTML = "❌ No data found for that name.";
+        resultDiv.style.display = "block";
+      }
+    }
+  function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.style.display = (sidebar.style.display === "flex") ? "none" : "flex";
+}
+
+const historyList = [];
+
+const originalLookup = lookup;
+lookup = function() {
+  const name = document.getElementById("nameInput").value.trim();
+  if (name) historyList.push(name);
+  originalLookup(); // run your existing logic
+};
+
+function showSection(section) {
+  // Optional: Show/hide your container if needed
+  if (document.querySelector('.lookup-container')) {
+    document.querySelector('.lookup-container').style.display = section === 'search' ? 'block' : 'none';
+  }
+
+  document.getElementById('howSection').style.display = section === 'how' ? 'block' : 'none';
+  document.getElementById('historySection').style.display = section === 'history' ? 'block' : 'none';
+
+  if (section === 'history') {
+    const ul = document.getElementById('historyList');
+    ul.innerHTML = '';
+    [...new Set(historyList)].forEach(name => {
+      const li = document.createElement('li');
+      li.textContent = name;
+      ul.appendChild(li);
+    });
+  }
+}
+  </script>
+</body>
+</html>
